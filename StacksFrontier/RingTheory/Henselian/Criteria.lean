@@ -352,15 +352,6 @@ theorem henselianLocalRing_of_isAdicComplete_maximalIdeal
 
 open Polynomial
 
-/-- If `f.eval a = 0`, then `f = (X - C a) * h` for some `h` with `h.eval a = f'.eval a`. -/
-private lemma hensel_factor {R : Type*} [CommRing R] (f : Polynomial R) (a : R)
-    (hfa : f.eval a = 0) :
-    ∃ h : Polynomial R, f = (X - C a) * h ∧ h.eval a = (derivative f).eval a := by
-  obtain ⟨h, h_eq⟩ : (X - C a) ∣ f := dvd_iff_isRoot.mpr hfa
-  refine ⟨h, h_eq, ?_⟩
-  rw [h_eq, derivative_mul]
-  simp
-
 /-- Hensel uniqueness: in a local ring, two roots of a polynomial that are
 congruent modulo the maximal ideal must be equal, provided the formal
 derivative at one of them is not in the maximal ideal. -/
@@ -371,30 +362,8 @@ theorem hensel_uniqueness {R : Type*} [CommRing R] [IsLocalRing R]
     (hab : a - b ∈ IsLocalRing.maximalIdeal R)
     (hf' : (Polynomial.derivative f).eval a ∉ IsLocalRing.maximalIdeal R) :
     a = b := by
-  obtain ⟨h, hfact, hha⟩ := hensel_factor f a hfa
-  -- Evaluate `f = (X - C a) * h` at `b` to obtain `(b - a) * h.eval b = 0`.
-  have hb_eval : (b - a) * h.eval b = 0 := by
-    have hev := congrArg (Polynomial.eval b) hfact
-    simp only [eval_mul, eval_sub, eval_X, eval_C] at hev
-    rw [← hev, hfb]
-  -- Taylor expansion: `h.eval b = f'(a) + (b - a) * c` for some `c`.
-  obtain ⟨c, hc⟩ : ∃ c : R, h.eval b = h.eval a + (b - a) * c :=
-    (Polynomial.sub_dvd_eval_sub b a h).imp fun _ hc ↦ by linear_combination hc
-  rw [hha] at hc
-  have hba : b - a ∈ IsLocalRing.maximalIdeal R := by
-    rw [show b - a = -(a - b) by ring]
-    exact (IsLocalRing.maximalIdeal R).neg_mem hab
-  -- If `h.eval b ∈ m`, then `f'(a) = h.eval b - (b - a) * c ∈ m`, contradicting `hf'`.
-  have hhb_not_mem : h.eval b ∉ IsLocalRing.maximalIdeal R := fun hmem => hf' <| by
-    rw [show (Polynomial.derivative f).eval a = h.eval b - (b - a) * c by linear_combination -hc]
-    exact (IsLocalRing.maximalIdeal R).sub_mem hmem
-      ((IsLocalRing.maximalIdeal R).mul_mem_right c hba)
-  have hunit : IsUnit (h.eval b) := by
-    by_contra hu
-    exact hhb_not_mem hu
-  have hba_zero : b - a = 0 :=
-    (IsUnit.mul_right_eq_zero hunit).mp (by rw [mul_comm]; exact hb_eval)
-  linear_combination -hba_zero
+  exact IsLocalRing.eq_of_eval_eq_zero_of_not_isUnit_sub hfa hfb hab
+    (IsLocalRing.notMem_maximalIdeal.mp hf')
 
 -- ===== merged from StacksDraft.Ch10.Sec153.Tag06RS =====
 
